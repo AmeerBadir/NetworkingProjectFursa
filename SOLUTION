@@ -1,26 +1,39 @@
 Local DNS Server IP
 -------------------
-<ip-here>
+dns nameserver 127.0.0.53
 
 
 
 Default gateway IP
 -------------------
-<ip-here>
+gateway 10.0.0.1
 
 
 
 DHCP IP allocation sys-logs
 -------------------
-<logs-here>
+**Discover (DHCPCD starting)**:
+   - 2024-05-24T11:51:32.870834+00:00: `dhcpcd-10.0.6 starting` indicates the initiation of the DHCP client (`dhcpcd`).
+
+2. **Offer (DHCP Offered)**:
+   - 2024-05-24T11:51:32.870852+00:00: `enX0: offered 10.0.0.19 from 10.0.0.1` indicates that the DHCP server (`10.0.0.1`)
+      has offered the IP address `10.0.0.19` to the client.
+
+3. **Request (DHCP Lease Requested)**:
+   - 2024-05-24T11:51:32.870866+00:00: `enX0: adding default route via 10.0.0.1` indicates that the client (`enX0`) is requesting
+the offered IP address (`10.0.0.19`) as well as adding a default route via the DHCP server (`10.0.0.1`).
+
+4. **Acknowledge (DHCPv4 Address Acquired)**:
+   - 2024-05-24T11:51:32.871004+00:00: `enX0: DHCPv4 address 10.0.0.19/24, gateway 10.0.0.1 acquired from 10.0.0.1` indicates that the
+client (`enX0`) has acquired the DHCPv4 address `10.0.0.19` with a subnet mask of `/24` and the gateway `10.0.0.1` from the DHCP server 
+(`10.0.0.1`).
 
 
 
 Public to private num of hops
 -------------------
-<answer-here>
-
+one hops of lenght 64
 
 DNS queries from the private instance
 -------------------
-<answer-here>
+yes for example using dig
