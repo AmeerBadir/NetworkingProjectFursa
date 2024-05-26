@@ -23,6 +23,7 @@ fi
 chmod +x ameer-new-key-pair1.pem 
 chmod 400 copy-key.pem
 echo -n > ameer-new-key-pair1.pem
+chmod 400 ameer-new-key-pair1.pem
 # create a key and override the pervious one
 sh-keygen -t rsa -b 4096 -f ameer-new-key-pair1.pem -N ""
 
