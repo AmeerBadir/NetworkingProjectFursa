@@ -20,7 +20,9 @@ if [ -e ameer-new-key-pair1.pem ]; then
   cat ameer-new-key-pair1.pem > copy-key.pem
   cat ameer-new-key-pair1.pem.pub > copy-key.pem.pub
 fi
+chmod +x ameer-new-key-pair1.pem 
 chmod 400 copy-key.pem
+echo -n > ameer-new-key-pair1.pem
 # create a key and override the pervious one
 sh-keygen -t rsa -b 4096 -f ameer-new-key-pair1.pem -N ""
 
