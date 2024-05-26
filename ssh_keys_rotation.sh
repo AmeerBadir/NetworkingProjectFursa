@@ -36,19 +36,23 @@ fi
 
 if [ -e ameer-new-key-pair1.pem ]; then
 
+  chmod 600 copy-key.pem
+
   cat ameer-new-key-pair1.pem > copy-key.pem
 
   cat ameer-new-key-pair1.pem.pub > copy-key.pem.pub
 
   rm -f ameer-new-key-pair1.pem ameer-new-key-pair1.pem.pub
 
+  chmod 400 copy-key.pem
+
 fi
 
-chmod 400 copy-key.pem
+#chmod 400 copy-key.pem
 
 # create a key and override the pervious one
 
-sh-keygen -t rsa -b 4096 -f ameer-new-key-pair1.pem -N ""
+ssh-keygen -t rsa -b 4096 -f ameer-new-key-pair1.pem -N ""
 
 
 
