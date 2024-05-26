@@ -18,7 +18,7 @@ touch copy-key.pem copy-key.pem.pub
 # if the key exists, then copy it 
 if [ -e ameer-new-key-pair1.pem ]; then
   cat ameer-new-key-pair1.pem > copy-key.pem
-  cat ameer-new-key-pair1.pem.pem.pub > copy-key.pem.pub
+  cat ameer-new-key-pair1.pem.pub > copy-key.pem.pub
 fi
 chmod 400 copy-key.pem
 # create a key and override the pervious one
