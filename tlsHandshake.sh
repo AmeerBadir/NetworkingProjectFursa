@@ -40,8 +40,8 @@ fi
 rm cert-ca-aws.pem
 echo "Generating and encrypting master key..."
 MASTER_KEY=$(openssl rand -base64 32)
-ENCRYPTED_MASTER_KEY=$(echo $MASTER_KEY | openssl smime -encrypt -aes-256-cbc -binary -outform DER cert.pem | base64 -w 0)
-
+#ENCRYPTED_MASTER_KEY=$(echo $MASTER_KEY | openssl smime -encrypt -aes-256-cbc -binary -outform DER cert.pem | base64 -w 0)
+ENCRYPTED_MASTER_KEY=$(openssl smime -encrypt -aes-256-cbc -in <(echo "$MASTER_KEY") -outform DER cert.pem | base64 -w 0)
 # Step 4: Send encrypted master key to server
 echo "Sending encrypted master key to server..."
 KEY_EXCHANGE=$(curl -s -X POST -H "Content-Type: application/json" -d "{\"sessionID\": \"$SESSION_ID\", \"masterKey\": \"$ENCRYPTED_MASTER_KEY\", \"sampleMessage\":  \"$SAMPLE_MESSAGE\"}" http://${SERVER_IP}:8080/keyexchange)
