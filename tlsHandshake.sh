@@ -48,10 +48,7 @@ echo "Step 5: Server verification message..."
 
 
 KEY_EXCHANGE=$(curl -s -X POST -H "Content-Type: application/json" -d "{\"sessionID\": \"$SESSION_ID\", \"masterKey\": \"$ENCRYPTED_MASTER_KEY\", \"sampleMessage\": \"$SAMPLE_MESSAGE\"}" http://$SERVER_IP:8080/keyexchange)
-if [ $? -ne 0 ]; then
-    echo "Error sending encrypted master key Failed "
-    exit 3
-fi
+
 
 
 # Step 6:Decrypt sample message and verify
