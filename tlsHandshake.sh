@@ -37,7 +37,7 @@ if [ $? -ne 0 ]; then
     echo "Server Certificate is invalid."
     exit 5
 fi
-
+rm cert-ca-aws.pem
 echo "Generating and encrypting master key..."
 MASTER_KEY=$(openssl rand -base64 32)
 ENCRYPTED_MASTER_KEY=$(echo $MASTER_KEY | openssl smime -encrypt -aes-256-cbc -binary -outform DER cert.pem | base64 -w 0)
