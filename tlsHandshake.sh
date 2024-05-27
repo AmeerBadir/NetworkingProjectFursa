@@ -20,13 +20,13 @@ if [ $? -ne 0 ]; then
     exit 2
 fi
 
-CIPHER_SUITE=$(echo $CLIENT_HELLO | jq -r '.')
-SESSION_ID=$(echo $CLIENT_HELLO | jq -r '.sessionID')
-SERVER_CERT=$(echo $CLIENT_HELLO | jq -r '.serverCert')
+CIPHER_SUITE=$(echo "$CLIENT_HELLO" | jq -r '.')
+SESSION_ID=$(echo "$CLIENT_HELLO" | jq -r '.sessionID')
+SERVER_CERT=$(echo "$CLIENT_HELLO" | jq -r '.serverCert')
 
 # Step 2: Server Certificate Verification
 echo "Verifying server certificate..."
-echo $SERVER_CERT  > cert.pem
+echo "$SERVER_CERT"  > cert.pem
 wget -q -O cert_ca_aws.pem https://alonitac.github.io/DevOpsTheHardWay/networking_project/cert-ca-aws.pem
 if [ ! -f cert_ca_aws.pem ]; then
     echo "Failed to download CA certificate."
@@ -37,11 +37,11 @@ if [ $? -ne 0 ]; then
     echo "Server Certificate is invalid."
     exit 5
 fi
-rm cert-ca-aws.pem
+#rm cert-ca-aws.pem
 echo "Generating and encrypting master key..."
 MASTER_KEY=$(openssl rand -base64 32)
-#ENCRYPTED_MASTER_KEY=$(echo $MASTER_KEY | openssl smime -encrypt -aes-256-cbc -binary -outform DER cert.pem | base64 -w 0)
-ENCRYPTED_MASTER_KEY=$(openssl smime -encrypt -aes-256-cbc -in <(echo "$MASTER_KEY") -outform DER cert.pem | base64 -w 0)
+ENCRYPTED_MASTER_KEY=$(echo $MASTER_KEY | openssl smime -encrypt -aes-256-cbc -binary -outform DER cert.pem | base64 -w 0)
+#ENCRYPTED_MASTER_KEY=$(openssl smime -encrypt -aes-256-cbc -in <(echo "$MASTER_KEY") -outform DER cert.pem | base64 -w 0)
 # Step 4: Send encrypted master key to server
 echo "Sending encrypted master key to server..."
 KEY_EXCHANGE=$(curl -s -X POST -H "Content-Type: application/json" -d "{\"sessionID\": \"$SESSION_ID\", \"masterKey\": \"$ENCRYPTED_MASTER_KEY\", \"sampleMessage\":  \"$SAMPLE_MESSAGE\"}" http://${SERVER_IP}:8080/keyexchange)
