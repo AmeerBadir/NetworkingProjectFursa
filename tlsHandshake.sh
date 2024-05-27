@@ -18,9 +18,9 @@ fi
 
 # Step 2: Server Hello
 echo "Step 2: Received Server Hello..."
-SERVER_HELLO=$(echo "$CLIENT_HELLO" | jq -r '.')
-SESSION_ID=$(echo "$SERVER_HELLO" | jq -r '.sessionID')
-SERVER_CERT=$(echo "$SERVER_HELLO" | jq -r '.serverCert')
+CLIENT_HELLO=$(echo "$CLIENT_HELLO" | jq -r '.')
+SESSION_ID=$(echo "$CLIENT_HELLO" | jq -r '.sessionID')
+SERVER_CERT=$(echo "$CLIENT_HELLO" | jq -r '.serverCert')
 echo "$SERVER_CERT" > cert.pem
 
 
