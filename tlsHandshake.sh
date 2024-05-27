@@ -27,8 +27,7 @@ SERVER_CERT=$(echo $CLIENT_HELLO | jq -r '.serverCert')
 # Step 2: Server Certificate Verification
 echo "Verifying server certificate..."
 echo $SERVER_CERT  > cert.pem
-cat cert.pem > echo
-wget -q https://alonitac.github.io/DevOpsTheHardWay/networking_project/cert-ca-aws.pem -O cert-ca-aws.pem
+wget -q -O cert_ca_aws.pem https://alonitac.github.io/DevOpsTheHardWay/networking_project/cert-ca-aws.pem
 if [ ! -f cert_ca_aws.pem ]; then
     echo "Failed to download CA certificate."
     exit 2
