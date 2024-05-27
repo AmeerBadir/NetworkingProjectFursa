@@ -26,7 +26,7 @@ SERVER_CERT=$(echo $CLIENT_HELLO | jq -r '.serverCert')
 
 # Step 2: Server Certificate Verification
 echo "Verifying server certificate..."
-echo $SERVER_CERT | base64 -d > cert.pem
+echo $SERVER_CERT  > cert.pem
 wget -q https://alonitac.github.io/DevOpsTheHardWay/networking_project/cert-ca-aws.pem -O cert-ca-aws.pem
 openssl verify -CAfile cert-ca-aws.pem cert.pem
 if [ $? -ne 0 ]; then
