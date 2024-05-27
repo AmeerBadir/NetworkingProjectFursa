@@ -44,7 +44,7 @@ ENCRYPTED_MASTER_KEY=$(echo $MASTER_KEY | openssl smime -encrypt -aes-256-cbc -b
 
 # Step 4: Send encrypted master key to server
 echo "Sending encrypted master key to server..."
-KEY_EXCHANGE=$(curl -s -X POST -H "Content-Type: application/json" -d '{"sessionID": "'$SESSION_ID'", "masterKey": "'$ENCRYPTED_MASTER_KEY'", "sampleMessage": "'$SAMPLE_MESSAGE'"}' http://${SERVER_IP}:8080/keyexchange)
+KEY_EXCHANGE=$(curl -s -X POST -H "Content-Type: application/json" -d "{\"sessionID\": \"$SESSION_ID\", \"masterKey\": \"$ENCRYPTED_MASTER_KEY\", \"sampleMessage\":  \"$SAMPLE_MESSAGE\"}" http://${SERVER_IP}:8080/keyexchange)
 if [ $? -ne 0 ]; then
     echo "Error sending encrypted master key"
     exit 4
