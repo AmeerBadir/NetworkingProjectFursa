@@ -27,14 +27,15 @@ echo "$SERVER_CERT" > cert.pem
 
 # Step 3: Server Certificate Verification
 echo "Step 3: Verifying Server Certificate..."
-wget https://alonitac.github.io/DevOpsTheHardWay/networking_project/cert-ca-aws.pem
+# wget https://alonitac.github.io/DevOpsTheHardWay/networking_project/cert-ca-aws.pem
+wget -q -O cert-ca-aws.pem https://alonitac.github.io/DevOpsTheHardWay/networking_project/cert-ca-aws.pem
 openssl verify -CAfile cert-ca-aws.pem cert.pem
 if [ $? -ne 0 ]; then
     echo "Server Certificate is invalid."
     exit 5
 fi
 
-rm cert-ca-aws.pem
+# rm cert-ca-aws.pem
 
 
 # Step 4: Client-Server master-key exchange
