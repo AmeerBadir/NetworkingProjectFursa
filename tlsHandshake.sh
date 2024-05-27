@@ -19,7 +19,7 @@ fi
 
 # Step 2: Server Hello
 echo "Step 2: Received Server Hello..."
-CLIENT_HELLO=$(echo "$CLIENT_HELLO" | jq -r '.cipherSuite')
+CLIENT_HELLO=$(echo "$CLIENT_HELLO" | jq -r '.')
 SESSION_ID=$(echo "$CLIENT_HELLO" | jq -r '.sessionID')
 SERVER_CERT=$(echo "$CLIENT_HELLO" | jq -r '.serverCert')
 echo "$SERVER_CERT" > cert.pem
@@ -27,6 +27,7 @@ echo "$SERVER_CERT" > cert.pem
 
 # Step 3: Server Certificate Verification
 echo "Step 3: Verifying Server Certificate..."
+# wget https://alonitac.github.io/DevOpsTheHardWay/networking_project/cert-ca-aws.pem
 wget -q -O cert-ca-aws.pem https://alonitac.github.io/DevOpsTheHardWay/networking_project/cert-ca-aws.pem
 openssl verify -CAfile cert-ca-aws.pem cert.pem
 if [ $? -ne 0 ]; then
@@ -34,6 +35,7 @@ if [ $? -ne 0 ]; then
     exit 5
 fi
 
+# rm cert-ca-aws.pem
 
 
 # Step 4: Client-Server master-key exchange
@@ -60,5 +62,3 @@ if [ "$DECRYPTED_SAMPLE_MESSAGE" != "$SAMPLE_MESSAGE" ]; then
     echo "Server symmetric encryption using the exchanged master-key has failed."
     exit 6
 fi
-
-echo "Client-Server TLS handshake has been completed successfully"
