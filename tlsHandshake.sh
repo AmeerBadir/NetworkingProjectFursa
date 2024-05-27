@@ -43,13 +43,13 @@ MASTER_KEY=$(openssl rand -base64 32)
 ENCRYPTED_MASTER_KEY=$(openssl smime -encrypt -aes-256-cbc -in <(echo "$MASTER_KEY") -outform DER cert.pem | base64 -w 0)
 
 
-#Step 5: Server verification message
-echo "Step 5: Sending master key and sample message..."
 
-SAMPLE_MESSAGE="Hi server, please encrypt me and send to client!"
+echo "Step 5: Server verification message..."
+
+
 KEY_EXCHANGE=$(curl -s -X POST -H "Content-Type: application/json" -d "{\"sessionID\": \"$SESSION_ID\", \"masterKey\": \"$ENCRYPTED_MASTER_KEY\", \"sampleMessage\": \"$SAMPLE_MESSAGE\"}" http://$SERVER_IP:8080/keyexchange)
 if [ $? -ne 0 ]; then
-    echo "Failed to send master key and sample message"
+    echo "Error sending encrypted master key Failed "
     exit 3
 fi
 
@@ -59,6 +59,7 @@ echo "Step 6: Decrypt sample message and verify..."
 
 ENCRYPTED_SAMPLE_MESSAGE=$(echo "$KEY_EXCHANGE" | jq -r '.encryptedSampleMessage')
 DECRYPTED_SAMPLE_MESSAGE=$(echo "$ENCRYPTED_SAMPLE_MESSAGE" | base64 -d | openssl enc -d -aes-256-cbc -pbkdf2 -k "$MASTER_KEY")
+
 if [ "$DECRYPTED_SAMPLE_MESSAGE" != "$SAMPLE_MESSAGE" ]; then
     echo "Server symmetric encryption using the exchanged master-key has failed."
     exit 6
