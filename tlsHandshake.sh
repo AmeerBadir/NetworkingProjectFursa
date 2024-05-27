@@ -1,12 +1,13 @@
 #!/bin/bash
-
-# Check if the server IP address is provided
-if [ -z "$1" ]; then
+if [ $# -ne 1 ]; then
     echo "Usage: $0 <server-ip>"
     exit 1
 fi
 
 SERVER_IP=$1
+SESSION_ID=""
+MASTER_KEY=""
+SAMPLE_MESSAGE="Hi server, please encrypt me and send to client!"
 
 # Step 1: Client Hello
 echo "Step 1: Sending Client Hello..."
